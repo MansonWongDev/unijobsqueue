@@ -32,6 +32,13 @@ class UniJobsQueue implements UniJobsQueueInterface
      * 队列模式/可用于抢购
      */
     const MODEL_LIST = 'list';
+
+    /**
+     * 初始默认模式
+     * @var
+     */
+    protected static $default_model = 'list';
+
     /**
      * 配置
      * @var null
@@ -245,7 +252,7 @@ class UniJobsQueue implements UniJobsQueueInterface
         $this->setQueue($queue);
         $this->setItem(array(
             'queue' => $queue,
-            'model' => 'list',//默认为rpush rpop
+            'model' => self::$default_model,//默认为rpush rpop
             'attempts' => 0,
             'max_attempts' => $this->max_attempts,
             'payload' => $payload,
@@ -452,6 +459,10 @@ class UniJobsQueue implements UniJobsQueueInterface
             } else {
                 self::$config = $defaultConfig;
             }
+        }
+        if (isset(self::$config['model'])){
+            $this->model(self::$default_model);
+            self::$default_model = self::$config['model'];//初始默认模式
         }
         return self::$config;
     }

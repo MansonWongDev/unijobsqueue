@@ -1,23 +1,22 @@
 <?php
 
 return [
-    'model' => 'delay',//模式
-    'delay' => 0,
-    'attempts' => 0,
-    'max_attempts' => 100,
-    'driver' => 'redis',
+    'model' => 'list',//默认模式，非延时模式：list、 延时模式：delay
+    'delay' => 0,//初始默认首次延时
+    'max_attempts' => 100,//最大失败重试次数
+    'driver' => 'redis',//驱动模式
     'delay_periods' => [30, 60, 180, 1800, 1800, 3600, 7200],
     /*
     |--------------------------------------------------------------------------
     | 队列驱动方式
     |--------------------------------------------------------------------------
     |
-    | Drivers:  "database", "redis", "rabbitmq"
+    | Drivers:  "mysql", "redis", "rabbitmq"
     |
     */
     'connections' => [
         'database' => [
-            'driver' => 'database',
+            'driver' => 'mysql',
             'table' => 'jobs',//表
             'queue' => 'default',
             'retry_after' => 90,
