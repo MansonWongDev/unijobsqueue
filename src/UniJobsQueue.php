@@ -94,6 +94,10 @@ class UniJobsQueue implements UniJobsQueueInterface
      * @var bool
      */
     protected $is_set_model = false;
+    /**
+     * @var mixed
+     */
+    public $error = false;
 
 
     public function __construct($config = [])
@@ -373,10 +377,12 @@ class UniJobsQueue implements UniJobsQueueInterface
             if ($rawData) {
                 //如果失败回滚
                 $roll = $this->reDispatch($rawData);
-                echo 'job返回 false ,已回滚,回滚状态：' . json_encode($roll);
+                if ($roll){
+                    $this->setErrorInfo('回滚失败',['roll_status'=>$roll,'raw_data'=>$rawData]);
+                }
             }
         } else {
-            echo '成功了！！！';
+//            echo '成功了！！！';
         }
 
         return $this;
@@ -386,7 +392,6 @@ class UniJobsQueue implements UniJobsQueueInterface
 
     /**
      * 重新进入对列
-     * @param $queue
      * @param $item
      * @return mixed
      */
@@ -394,7 +399,7 @@ class UniJobsQueue implements UniJobsQueueInterface
     {
 
         $this->model = $item['model'];
-        echo '模式为：' . $this->model;
+//        echo '模式为：' . $this->model;
         $queue = $item['queue'];
         $item['attempts']++;
         if ($item['attempts'] <= $item['max_attempts']) {
@@ -492,11 +497,36 @@ class UniJobsQueue implements UniJobsQueueInterface
 
     private function getConfigByFile()
     {
-        $config = include  __DIR__.'/../config/config.php';
+        $config = include __DIR__ . '/../config/uniqueue.php';
         if (!$config) {
             throw new \Exception('config error');
         }
         return $config;
+    }
+
+    /**
+     * Notes:设置错误信息
+     * @param string $msg
+     * @param array $data
+     */
+    private function setErrorInfo($msg='',$data=[])
+    {
+        $this->error = array(
+            'msg'=>$msg,
+            'data'=>$data,
+        );
+    }
+
+    /**
+     * Notes:获取错误信息
+     * @return array|mixed
+     */
+    public function getError()
+    {
+        if (!$this->error){
+            return [];
+        }
+        return $this->error;
     }
 
 
