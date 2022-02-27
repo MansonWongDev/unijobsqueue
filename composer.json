@@ -1,0 +1,21 @@
+{
+    "name": "mansonwong/unijobsqueue",
+    "type": "library",
+    "require-dev": {
+        "php": ">=7.0.0"
+    },
+    "license": "Apache-2.0",
+    "autoload": {
+        "psr-4": {
+            "Mansonwong\\UniJobsQueue\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "WangWenJun",
+            "email": "260945307@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
