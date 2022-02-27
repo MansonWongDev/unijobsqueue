@@ -208,12 +208,12 @@ class UniJobsQueue implements UniJobsQueueInterface
     }
 
 
-    public static function getInstance()
+    public static function getInstance($config=[])
     {
         if (self::$instance) {
             return self::$instance;
         }
-        return new self();
+        return new self($config);
     }
 
     /**
