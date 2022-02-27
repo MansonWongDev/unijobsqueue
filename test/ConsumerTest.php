@@ -13,9 +13,9 @@ require __DIR__.'/../vendor/autoload.php';
 use Mansonwong\UniJobsQueue\UniJobsQueue;
 
 /**
- * //你的配置文件，参考 config/uniqueue.php，
+ * $config 配置参数，请参考 config/uniqueue.php，
  * 你可以简单做一个封装用在您的框架里面去，
- * 比如在laravel框架 可以使用服务提供者，助手函数、门面模式、Helpers等方式做一个简单初始化配置封装
+ * 比如在laravel框架 可以使用服务提供者，助手函数、门面模式等方式做一个简单初始化配置封装
  * 或者不需要封装直接在你的业务类中初始化
  */
 $config = [];
@@ -71,3 +71,7 @@ if ($res2->getError()){
     echo '队列事务执行有错误';
     var_dump($res1->getError());
 }
+
+/**
+ * 温馨提示：关于队列名，普通队列和延时队列模式的队列名同样是 demo ，其实不会冲突，按模式区分
+ */
